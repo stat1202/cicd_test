@@ -3,12 +3,11 @@ on:
   push:
     branches:
       - main #빌드하고싶은 브랜치
-    paths:
-      - front/**
-      - back/**
+    # paths:
+    #   - front/**
 jobs:
   build-front:
-    if: github.event_name == 'push' && startsWith(github.ref, 'refs/heads/main')
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/heads/main') && github.path == 'front/'
     runs-on: ubuntu-latest
     # paths:
     #   - front/**
