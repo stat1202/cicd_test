@@ -3,8 +3,6 @@ on:
   push:
     branches:
       - main #빌드하고싶은 브랜치
-    paths:
-      - front/**
 jobs:
   check-changes:
     runs-on: ubuntu-latest
