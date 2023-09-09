@@ -40,7 +40,6 @@ jobs:
           echo "::set-output name=back::$back"
   build-front:
     needs: check-changes
-    needs.check-changes.outputs.front == 'true'
     if: github.event_name == 'push' && startsWith(github.ref, 'refs/heads/main') && needs.check-changes.outputs.front == 'true'
     runs-on: ubuntu-latest
     strategy:
