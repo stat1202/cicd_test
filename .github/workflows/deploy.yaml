@@ -8,7 +8,7 @@ on:
 jobs:
   build-front:
     runs-on: ubuntu-latest
-    if: github.event_name == 'push' && startsWith(github.ref, 'refs/heads/main') && github.path == 'front'
+    if: startsWith(github.ref, 'refs/heads/main') && github.path == 'front'
     strategy:
       matrix:
         node-version: [16.x]
