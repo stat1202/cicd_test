@@ -6,8 +6,30 @@ on:
     # paths:
     #   - front/**
 jobs:
+  set_condition:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Determine Condition
+        id: condition
+        run: |
+          if [[ -n "$(git diff --name-only ${{ github.sha }} HEAD -- front/)" ]]; then
+            echo "::set-output name=condition::true"
+          elif [[ -n "$(git diff --name-only ${{ github.sha }} HEAD -- back/)" ]]; then
+            echo "::set-output name=condition::false"
+          else
+            echo "::set-output name=condition::unknown"
+          fi
+
+      - name: Use Condition
+        run: |
+          condition="${{ steps.condition.outputs.condition }}"
+          echo "Condition: $condition"
+
   build-front:
-    if: github.event_name == 'push' && startsWith(github.ref, 'refs/heads/main')
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/heads/main') && ${{ needs.set_condition.outputs.condition == 'true' }}
     runs-on: ubuntu-latest
     # paths:
     #   - front/**
