@@ -7,10 +7,10 @@ on:
     #   - front/**
 jobs:
   build-front:
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/heads/main') && startsWith(github.path, 'front/')
     runs-on: ubuntu-latest
     # paths:
     #   - front/**
-    # if: startsWith(github.ref, 'refs/heads/main') && startsWith(github.path, 'front/')
     strategy:
       matrix:
         node-version: [16.x]
