@@ -8,7 +8,9 @@ on:
 jobs:
   build-front:
     runs-on: ubuntu-latest
-    if: startsWith(github.ref, 'refs/heads/main') && startsWith(github.path, 'front/')
+    paths:
+      - front/**
+    # if: startsWith(github.ref, 'refs/heads/main') && startsWith(github.path, 'front/')
     strategy:
       matrix:
         node-version: [16.x]
