@@ -6,7 +6,7 @@ function New() {
   //   useRecoilState -> 값, 변경 함수 둘다 사용
   return (
     <div>
-      변경사항 확인-프론트 변경-9
+      변경사항 확인-프론트 변경-99
       <Link to="/test">useRef</Link>
     </div>
   );
