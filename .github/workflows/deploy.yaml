@@ -3,18 +3,49 @@ on:
   push:
     branches:
       - main #빌드하고싶은 브랜치
-    # paths:
-    #   - front/**
+    paths:
+      - front/**
 jobs:
-  build-front:
-    if: github.event_name == 'push' && startsWith(github.ref, 'refs/heads/main') && github.path == 'front/**'
+  check-changes:
     runs-on: ubuntu-latest
-    # paths:
-    #   - front/**
+    outputs:
+      front: ${{ steps.set-output.outputs.front }}
+      back: ${{ steps.set-output.outputs.back }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Get list of changed files
+        id: get-changed-files
+        run: |
+          changed_files=$(git diff --name-only HEAD~1 HEAD)
+          echo "Changed files: $changed_files"
+      - name: Check changes in front or back
+        id: set-output
+        run: |
+          changed_files=$(git diff --name-only HEAD~1 HEAD)
+          front="false"
+          back="false"
+          for file in $changed_files
+          do
+            if [[ "$file" == front/* ]]; then
+              front="true"
+            fi
+            if [[ "$file" == back/* ]]; then
+              back="true"
+            fi
+          done
+          echo "Front changed: $front"
+          echo "Back changed: $back"
+          echo "::set-output name=front::$front"
+          echo "::set-output name=back::$back"
+  build-front:
+    needs: check-changes
+    needs.check-changes.outputs.front == 'true'
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/heads/main') && needs.check-changes.outputs.front == 'true'
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         node-version: [16.x]
-
     steps:
       - uses: actions/checkout@master
       - name: Use Node.js ${{ matrix.node-version }}
