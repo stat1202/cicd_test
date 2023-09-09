@@ -14,7 +14,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@master
-        working-directory: front
       - name: Use Node.js ${{ matrix.node-version }}
         working-directory: front
         uses: actions/setup-node@v1
