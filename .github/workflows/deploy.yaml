@@ -3,8 +3,8 @@ on:
   push:
     branches:
       - main #빌드하고싶은 브랜치
-    # paths:
-    #   - front/**
+    paths:
+      - front/**
 jobs:
   build:
     runs-on: ubuntu-latest
