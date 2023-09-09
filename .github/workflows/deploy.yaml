@@ -14,8 +14,8 @@ jobs:
 
       - name: List Files
         run: |
-          echo "Current directory: ${{ github.action_path }}"
-          ls -l "${{ github.action_path }}"
+          echo "Current directory: ${{ github.path }}"
+          ls -l "${{ github.path }}"
   build-front:
     if: github.event_name == 'push' && startsWith(github.ref, 'refs/heads/main') && startsWith(github.path, 'front/')
     runs-on: ubuntu-latest
