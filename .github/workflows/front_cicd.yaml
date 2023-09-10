@@ -1,5 +1,10 @@
 name: Front-CICD
 on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "front/**"
   push:
     branches:
       - main #빌드하고싶은 브랜치
